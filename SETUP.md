@@ -82,7 +82,7 @@ Before wiring, set the PN532 dip switches to **SPI mode** otherwise the PNC532 w
 3. Select **Tools → Board → ESP32S3 Dev Module**
 
 ### Firmware Configuration
-The firmware authenticates Block 52 of sector 13 on the MIFARE Classic 1K card using a shared sector Key A. The key must match the key provisioned on your institution's cards. Set the key in the firmware before flashing:
+The firmware authenticates to a specific sector on the MIFARE Classic 1K card using an A sector key. The key must match the key provisioned on your institution's cards. Set the key in the firmware before flashing:
 
 ```cpp
 uint8_t keyA[6] = { 0xXX, 0xXX, 0xXX, 0xXX, 0xXX, 0xXX };
