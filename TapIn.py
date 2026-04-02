@@ -1,5 +1,5 @@
 """
-TapIn — NFC Attendance System created by tylerallen
+TapIn — NFC Attendance System reated by tylerallen
 PyQt6 edition with hardware-accelerated UI, smooth animations, and true transparency
 """
 
@@ -389,7 +389,7 @@ class SerialReader(QThread):
     error_message   = pyqtSignal(str)
 
     def __init__(self, port, baud):
-        super().__init__(daemon=True)
+        super().__init__(None)
         self.port      = port
         self.baud      = baud
         self._stop     = threading.Event()
@@ -2100,7 +2100,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setApplicationName("TapIn")
 
-    # load fonts manually, qt sometimes misses newly installed ones on windows
+    # load fonts manually - qt sometimes misses newly installed ones on windows
     if sys.platform == "win32":
         win_fonts = Path(os.environ.get("WINDIR", "C:/Windows")) / "Fonts"
         font_files = [
