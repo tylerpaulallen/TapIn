@@ -35,6 +35,7 @@ Adafruit_PN532 nfc(PN532_SCK, PN532_MISO, PN532_MOSI, PN532_SS);
 // The 6-byte Key A for the sector containing TARGET_BLOCK.
 // Replace each 0x00 with your institution's actual key bytes.
 // Do NOT commit real key bytes to a public repository.
+// Enter HEX values from sector key for each "00" value after the 0x in each string below
 uint8_t authKey[6] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };  // <-- set your Key A here
 
 // ─────────────────────────────────────────────────────────────────
