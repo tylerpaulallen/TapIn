@@ -1,10 +1,10 @@
 # TapIn — NFC Attendance System
 
+![TapIn GUI](/assets/TapIn_header.png)
+
 **TapIn** is a desktop attendance management system that uses NFC card scanning to automate student check-in for university courses. A professor loads a class roster, activates logging, and students tap their university ID cards on a physical reader to mark themselves present in real time — no apps, no QR codes, no manual roll call.
 
 The system pairs an ESP32 microcontroller and a PN532 NFC reader with a Python desktop application built on PyQt6, communicating over USB serial. Everything runs locally with no internet connection required.
-
-![TapIn GUI](/assets/TapIn_header.png)
 
 ---
 
