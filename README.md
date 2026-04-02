@@ -4,7 +4,7 @@
 
 The system pairs an ESP32 microcontroller and a PN532 NFC reader with a Python desktop application built on PyQt6, communicating over USB serial. Everything runs locally with no internet connection required.
 
-![TapIn GUI](assets/tapin_gui.png)
+![TapIn GUI](assets/tapin_type.png)
 
 ---
 
