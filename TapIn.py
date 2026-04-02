@@ -1,5 +1,5 @@
 """
-TapIn — NFC Attendance System
+TapIn — NFC Attendance System created by tylerallen
 PyQt6 edition with hardware-accelerated UI, smooth animations, and true transparency
 """
 
