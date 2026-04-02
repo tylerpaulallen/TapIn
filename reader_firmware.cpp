@@ -41,9 +41,9 @@ uint8_t authKey[6] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };  // <-- set your Ke
 // ─────────────────────────────────────────────────────────────────
 
 void setup() {
+  USBSerial.begin(115200);  // force USB CDC serial on ESP32-S3
   Serial.begin(115200);
-  while (!Serial) delay(10);
-  delay(500);
+  delay(1000);
 
   Serial.println("=== Attendance Reader Init ===");
 
@@ -136,5 +136,5 @@ void loop() {
   }
   Serial.println();
 
-  delay(2000); // debounce before next read
+  delay(1000); // debounce before next read
 }
