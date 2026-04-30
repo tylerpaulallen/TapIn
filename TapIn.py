@@ -45,7 +45,7 @@ LOGS_DIR         = BASE_DIR / "attendance_logs"
 SESSION_LOGS_DIR = BASE_DIR / "session_logs"
 
 
-# font detection - prefers geist, falls back to segoe on windows
+# font detection
 def resolve_fonts():
     families = set(QFontDatabase.families())
     def pick(candidates):
@@ -61,10 +61,9 @@ def resolve_fonts():
     mono    = pick(["Geist Mono", "Consolas", "Menlo", "Courier New"])
     return display, text, mono
 
-_F_DISPLAY = _F_TEXT = _F_MONO = None  # set later once qt app is running
+_F_DISPLAY = _F_TEXT = _F_MONO = None 
 
 
-# colors
 C = {
     "bg":           "#0D0F14",
     "bg2":          "#111318",
@@ -90,9 +89,8 @@ C = {
 }
 
 
-# qss stylesheet - built after fonts resolve so font vars are set
+# qss stylesheet 
 def build_qss():
-    # builds the stylesheet string, needs fonts to be set first
     ft  = _F_TEXT
     fm  = _F_MONO
     return f"""
