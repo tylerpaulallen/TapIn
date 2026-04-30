@@ -1,21 +1,15 @@
 /*
- * TapIn — NFC Attendance Reader Firmware
- * ESP32-S3 + Elechouse PN532 (SPI mode)
- *
- * Reads a designated data block from MIFARE Classic 1K cards,
- * authenticates using a sector Key A, and outputs card data
- * over serial at 115200 baud for consumption by the TapIn desktop app.
+ * Make sure when you set up the PNC532, you put it in SPI mode because otherwise it will never work (I learned this the hard way)
  *
  * CONFIGURATION REQUIRED:
- *   - Set TARGET_BLOCK to the block number containing your card data
- *   - Set AUTH_KEY to the 6-byte Key A for that block's sector
- *     (these values are specific to your institution's card system)
+ *  - Set TARGET_BLOCK to the block number containing your card data (block # on the mifare card)
+ *  - Set AUTH_KEY to the 6-byte Key A for that block's sector (you need to use your read own key for that specific block)
  */
 
 #include <SPI.h>
 #include <Adafruit_PN532.h>
 
-// SPI pin definitions (ESP32-S3 DevKitC-1)
+// SPI pin assignment (specifically for the ESP32-S3 DevKitC-1, change based on your ESP32 pinout diagram)
 #define PN532_SCK   12
 #define PN532_MISO  13
 #define PN532_MOSI  11
@@ -24,7 +18,7 @@
 Adafruit_PN532 nfc(PN532_SCK, PN532_MISO, PN532_MOSI, PN532_SS);
 
 // ─────────────────────────────────────────────────────────────────
-//  CONFIGURE THESE VALUES FOR YOUR INSTITUTION'S CARD SYSTEM
+//  CONFIGURE THESE VALUES FOR YOUR UNIVERSITY'S CARD SYSTEM
 // ─────────────────────────────────────────────────────────────────
 
 // The block number to read from each card.
@@ -34,14 +28,14 @@ Adafruit_PN532 nfc(PN532_SCK, PN532_MISO, PN532_MOSI, PN532_SS);
 
 // The 6-byte Key A for the sector containing TARGET_BLOCK.
 // Replace each 0x00 with your institution's actual key bytes.
-// Do NOT commit real key bytes to a public repository.
+// Do NOT commit real key bytes to a public repository. (I will not be posting the CBU key anywhere in this project)
 // Enter HEX values from sector key for each "00" value after the 0x in each string below
-uint8_t authKey[6] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };  // <-- set your Key A here
+uint8_t authKey[6] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };  // set your Key A here
 
 // ─────────────────────────────────────────────────────────────────
 
 void setup() {
-  USBSerial.begin(115200);  // force USB CDC serial on ESP32-S3
+  USBSerial.begin(115200);  // force USB CDC serial on the esp
   Serial.begin(115200);
   delay(1000);
 
@@ -75,7 +69,7 @@ void loop() {
   bool success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 500);
   if (!success) return;
 
-  // Print UID
+  // print the UID
   Serial.print("Card detected. UID: ");
   for (uint8_t i = 0; i < uidLength; i++) {
     if (uid[i] < 0x10) Serial.print("0");
@@ -84,11 +78,11 @@ void loop() {
   }
   Serial.println();
 
-  // Authenticate the target sector using Key A
+  // auth the target sector using Key A
   uint8_t authSuccess = nfc.mifareclassic_AuthenticateBlock(
     uid, uidLength,
     TARGET_BLOCK,
-    0,           // 0 = Key A
+    0,           // 0 = key A
     authKey
   );
 
@@ -100,7 +94,7 @@ void loop() {
 
   Serial.println("Auth OK.");
 
-  // Read the target block (16 bytes)
+  // read the target block (ful 16 bytes)
   uint8_t blockData[16] = {0};
   uint8_t readSuccess   = nfc.mifareclassic_ReadDataBlock(TARGET_BLOCK, blockData);
 
@@ -110,7 +104,7 @@ void loop() {
     return;
   }
 
-  // Print raw hex
+  // print raw hex
   Serial.print("Block ");
   Serial.print(TARGET_BLOCK);
   Serial.print(" (hex): ");
@@ -121,7 +115,7 @@ void loop() {
   }
   Serial.println();
 
-  // Convert to ASCII — stop at null byte
+  // convert to ascii and stop at null byte
   Serial.print("Block ");
   Serial.print(TARGET_BLOCK);
   Serial.print(" (ASCII): ");
